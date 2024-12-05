@@ -1,4 +1,5 @@
 const { getCommands } = require('../../util/src/file.js')
+const { samDL, samDR, masDL, masDR } = require('./part2Utils.js')
 require('../../util/src/array.js')
 
 const part2 = (filename) => {
@@ -8,41 +9,15 @@ const part2 = (filename) => {
   for (let i = 1; i < map.length - 1; i++) {
     for (let j = 1; j < map[i].length - 1; j++) {
       if (map[i][j] === 'A') {
-        if (
-          map[i - 1][j - 1] === 'M' &&
-          map[i + 1][j + 1] === 'S' &&
-          map[i - 1][j + 1] === 'M' &&
-          map[i + 1][j - 1] === 'S'
-        ) {
-          count++
-        }
+        const mas1 = masDL(map, { x: j, y: i })
+        const mas2 = masDR(map, { x: j, y: i })
+        const mas3 = samDR(map, { x: j, y: i })
+        const mas4 = samDL(map, { x: j, y: i })
 
-        if (
-          map[i - 1][j - 1] === 'M' &&
-          map[i + 1][j + 1] === 'S' &&
-          map[i - 1][j + 1] === 'S' &&
-          map[i + 1][j - 1] === 'M'
-        ) {
-          count++
-        }
-
-        if (
-          map[i - 1][j - 1] === 'S' &&
-          map[i + 1][j + 1] === 'M' &&
-          map[i - 1][j + 1] === 'S' &&
-          map[i + 1][j - 1] === 'M'
-        ) {
-          count++
-        }
-
-        if (
-          map[i - 1][j - 1] === 'S' &&
-          map[i + 1][j + 1] === 'M' &&
-          map[i - 1][j + 1] === 'M' &&
-          map[i + 1][j - 1] === 'S'
-        ) {
-          count++
-        }
+        mas1 && mas2 && count++
+        mas1 && mas3 && count++
+        mas4 && mas3 && count++
+        mas4 && mas2 && count++
       }
     }
   }
